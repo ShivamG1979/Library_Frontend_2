@@ -1,4 +1,3 @@
-// src/components/layout/Home.jsx
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useBook } from '../../context/BookContext';
@@ -14,144 +13,107 @@ const HomePage = () => {
 
   useEffect(() => {
     if (books.length > 0) {
-      // Get 4 random books for featured section
       const shuffled = [...books].sort(() => 0.5 - Math.random());
       const selected = shuffled.slice(0, Math.min(4, books.length));
       setFeaturedBooks(selected);
     }
   }, [books]);
 
-  if (loading) {
-    return (
-      <div className="container mt-5 text-center">
-        <div className="spinner-border text-primary" role="status">
-          <span className="visually-hidden">Loading...</span>
-        </div>
-      </div>
-    );
-  }
-
-  if (error) {
-    return (
-      <div className="container mt-5">
-        <div className="alert alert-danger">{error}</div>
-      </div>
-    );
-  }
+  if (loading) return <div className="text-center my-5"><div className="spinner-border text-secondary" role="status" /></div>;
+  if (error) return <div className="alert alert-danger">{error}</div>;
 
   return (
-    <>
-     {/* Hero Section */}
-<div className="bg-primary text-white py-5 "> {/* Add mt-5 here */}
-  <div className="container">
-    <div className="row">
-      <div className="col-md-8">
-        <h1 className="display-5 fw-bold mb-3">Welcome to BookNook Library</h1>
-        <p className="lead mb-4">
-          Your digital gateway to a world of knowledge. Explore thousands of books at our library.
-        </p>
-        <div className="d-flex gap-3">
-          <Link to="/books" className="btn btn-light">
-            Explore Books
-          </Link>
-          <Link to="/register" className="btn btn-outline-light">
-            Join Free
-          </Link>
+    <div className="min-vh-100 bg-soft-light">
+      {/* Hero Section */}
+      <div className="container py-5">
+        <div className="row align-items-center">
+          <div className="col-lg-6">
+            <h1 className="display-4 fw-bold text-dark mb-4">Discover Your Next Read</h1>
+            <p className="lead text-muted mb-5">
+              Explore a world of stories, knowledge, and imagination. Your digital library awaits.
+            </p>
+            <div className="d-flex gap-3">
+              <Link to="/books" className="btn btn-dark">
+                Browse Library
+              </Link>
+              <Link to="/register" className="btn btn-outline-dark">
+                Get Started
+              </Link>
+            </div>
+          </div>
+          <div className="col-lg-6 text-center">
+            <img 
+              src="/image1.webp" 
+              alt="Library illustration" 
+              className="img-fluid rounded-4 shadow-lg"
+            />
+          </div>
+        </div>
+      </div>
+
+      {/* Featured Books */}
+      <div className="container py-5">
+        <div className="d-flex justify-content-between align-items-center mb-5">
+          <h2 className="fw-bold">Featured Books</h2>
+          <Link to="/books" className="btn btn-outline-dark">View All</Link>
+        </div>
+        
+        {books.length === 0 ? (
+          <div className="alert alert-info text-center">
+            No books available. Check back soon!
+          </div>
+        ) : (
+          <div className="row row-cols-1 row-cols-md-4 g-4">
+            {featuredBooks.map(book => (
+              <div key={book._id} className="col">
+                <Link to={`/books/${book._id}`} className="text-decoration-none">
+                  <BookCard book={book} />
+                </Link>
+              </div>
+            ))}
+          </div>
+        )}
+      </div>
+
+      {/* Quick Steps */}
+      <div className="bg-light py-5">
+        <div className="container">
+          <h2 className="text-center mb-5 fw-bold">How It Works</h2>
+          <div className="row g-4">
+            {[
+              { icon: 'bi-person-plus', title: 'Sign Up', desc: 'Create your account' },
+              { icon: 'bi-search', title: 'Explore', desc: 'Find your perfect book' },
+              { icon: 'bi-hand-index', title: 'Borrow', desc: 'Request your book' },
+              { icon: 'bi-book', title: 'Enjoy', desc: 'Read and return' }
+            ].map((step, index) => (
+              <div key={step.title} className="col-md-3">
+                <div className="card border-0 text-center h-100 hover-lift">
+                  <div className="card-body">
+                    <i className={`bi ${step.icon} fs-2 text-secondary mb-3`}></i>
+                    <h5 className="mb-2">{`${index + 1}. ${step.title}`}</h5>
+                    <p className="text-muted">{step.desc}</p>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+
+      {/* Call to Action */}
+      <div className="container py-5 text-center">
+        <div className="bg-dark text-white p-5 rounded-4">
+          <h2 className="mb-4 fw-bold">Start Your Reading Journey</h2>
+          <p className="lead mb-5">
+            Join thousands of readers. Access unlimited books at your fingertips.
+          </p>
+          <div>
+            <Link to="/login" className="btn btn-light me-3">Log In</Link>
+            <Link to="/register" className="btn btn-outline-light">Sign Up</Link>
+          </div>
         </div>
       </div>
     </div>
-  </div>
-</div>
-
-
-      <div className="container my-5">
-        {/* Featured Books Section */}
-        <section className="mb-5">
-          <div className="d-flex justify-content-between align-items-center mb-4">
-            <h2>Featured Books</h2>
-            <Link to="/books" className="btn btn-outline-primary">View All</Link>
-          </div>
-
-          {books.length === 0 ? (
-            <div className="alert alert-info">
-              No books available at the moment. Check back soon!
-            </div>
-          ) : (
-            <div className="row row-cols-1 row-cols-sm-2 row-cols-md-4 g-4">
-              {featuredBooks.map(book => (
-                <div className="col" key={book._id}>
-                  <Link 
-                    to={`/books/${book._id}`} 
-                    className="text-decoration-none"
-                  >
-                    <BookCard book={book} />
-                  </Link>
-                </div>
-              ))}
-            </div>
-          )}
-        </section>
-{/* How It Works - Simple Version */}
-        <section className="mb-5">
-          <h2 className="text-center mb-4">How It Works</h2>
-          <div className="row g-4">
-            <div className="col-md-3">
-              <div className="card h-100">
-                <div className="card-body text-center">
-                  <i className="bi bi-person-plus fs-2 text-primary mb-3"></i>
-                  <h5>1. Sign Up</h5>
-                  <p className="card-text">Create your free account</p>
-                </div>
-              </div>
-            </div>
-            <div className="col-md-3">
-              <div className="card h-100">
-                <div className="card-body text-center">
-                  <i className="bi bi-search fs-2 text-primary mb-3"></i>
-                  <h5>2. Browse</h5>
-                  <p className="card-text">Find your favorite books</p>
-                </div>
-              </div>
-            </div>
-            <div className="col-md-3">
-              <div className="card h-100">
-                <div className="card-body text-center">
-                  <i className="bi bi-hand-index fs-2 text-primary mb-3"></i>
-                  <h5>3. Request</h5>
-                  <p className="card-text">Submit a borrowing request</p>
-                </div>
-              </div>
-            </div>
-            <div className="col-md-3">
-              <div className="card h-100">
-                <div className="card-body text-center">
-                  <i className="bi bi-book fs-2 text-primary mb-3"></i>
-                  <h5>4. Read & Return</h5>
-                  <p className="card-text">Enjoy and return on time</p>
-                </div>
-              </div>
-            </div>
-          </div>
-        </section>
-        {/* Call to Action */}
-        <section className="bg-light p-4 text-center mb-5 rounded">
-          <h2 className="mb-3">Ready to Start Reading?</h2>
-          <p className="mb-4">
-            Create an account to borrow books and track your reading progress.
-          </p>
-          <div>
-            <Link to="/login" className="btn btn-primary me-2">
-              Login
-            </Link>
-            <Link to="/register" className="btn btn-outline-primary">
-              Register
-            </Link>
-          </div>
-        </section>
-
-        
-      </div>
-    </>
   );
 };
 

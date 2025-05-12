@@ -1,4 +1,3 @@
-// src/components/auth/Register.jsx
 import { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
@@ -105,15 +104,14 @@ const Register = () => {
                   />
                 </div>
                 <div className="d-grid">
-                  <button type="submit" className="btn btn-primary">Register</button>
+                  <button type="submit" className="btn btn-dark">Register</button>
                 </div>
                 <div className="text-center mt-3">
-  <p>Already have an account? <Link to="/login">Login here</Link></p>
-</div>
-<div className="text-center mt-2">
-  <Link to="/" className="btn btn-secondary btn-sm">Home</Link>
-</div>
-
+                  <p>Already have an account? <Link to="/login" className="text-dark">Login here</Link></p>
+                </div>
+                <div className="text-center mt-2">
+                  <Link to="/" className="btn btn-dark">Home</Link>
+                </div>
               </form>
             </div>
           </div>

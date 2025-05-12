@@ -99,7 +99,7 @@ const ManageUsers = () => {
       
       <div className="d-flex justify-content-between align-items-center mb-4">
         <button 
-          className={`btn ${showAddForm ? 'btn-secondary' : 'btn-primary'}`}
+          className={`btn ${showAddForm ? 'btn-secondary' : 'btn-dark'}`}
           onClick={() => {
             setShowAddForm(!showAddForm);
             setShowEditForm(false);
@@ -274,7 +274,7 @@ const ManageUsers = () => {
               </div>
             </div>
           ) : filteredUsers.length === 0 ? (
-            <div className="alert alert-info">No users found.</div>
+            <div className="alert alert-warning">No users found.</div>
           ) : (
             <div className="table-responsive">
               <table className="table table-striped table-hover">
@@ -292,13 +292,13 @@ const ManageUsers = () => {
                       <td>{user.username}</td>
                       <td>{user.email}</td>
                       <td>
-                        <span className={`badge ${user.role === 'admin' ? 'bg-danger' : 'bg-primary'}`}>
+                        <span className={`badge ${user.role === 'admin' ? 'bg-danger' : 'bg-success'}`}>
                           {user.role}
                         </span>
                       </td>
                       <td>
                         <div className="d-flex gap-2">
-                          <button className="btn btn-sm btn-info" onClick={() => handleEdit(user)}>Edit</button>
+                          <button className="btn btn-sm btn-dark" onClick={() => handleEdit(user)}>Edit</button>
                           <button className="btn btn-sm btn-danger" onClick={() => handleDelete(user._id)}>Delete</button>
                         </div>
                       </td>

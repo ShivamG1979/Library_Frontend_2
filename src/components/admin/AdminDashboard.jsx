@@ -28,7 +28,7 @@ const AdminDashboard = () => {
         className="d-flex justify-content-center align-items-center"
         style={{ height: "50vh" }}
       >
-        <div className="spinner-border text-primary" role="status">
+        <div className="spinner-border text-secondary" role="status">
           <span className="visually-hidden">Loading...</span>
         </div>
       </div>
@@ -46,7 +46,7 @@ const AdminDashboard = () => {
       {/* Statistics Cards */}
       <div className="row mb-4">
         <div className="col-md-4 mb-3">
-          <div className="card text-white bg-primary h-100">
+          <div className="card text-white bg-secondary h-100">
             <div className="card-header">Books</div>
             <div className="card-body">
               <div className="row">
@@ -63,13 +63,13 @@ const AdminDashboard = () => {
               <hr className="my-2 opacity-50" />
               <div className="d-flex justify-content-between">
                 <div>
-                  <span className="badge bg-light text-primary fs-6">
+                  <span className="badge bg-light text-secondary fs-6">
                     {statistics.availableBooks}
                   </span>
                   <p className="small mb-0">Available</p>
                 </div>
                 <div>
-                  <span className="badge bg-light text-primary fs-6">
+                  <span className="badge bg-light text-secondary fs-6">
                     {statistics.borrowedBooks}
                   </span>
                   <p className="small mb-0">Borrowed</p>
@@ -156,7 +156,7 @@ const AdminDashboard = () => {
                             <td>
                               <Link
                                 to="/admin/requests"
-                                className="btn btn-sm btn-outline-primary"
+                                className="btn btn-sm btn-outline-secondary"
                               >
                                 View
                               </Link>
@@ -194,7 +194,7 @@ const AdminDashboard = () => {
             <div className="card-header bg-white d-flex justify-content-between align-items-center">
               <h5 className="mb-0">Books Due Soon</h5>
               {statistics.booksDueSoon && (
-                <span className="badge bg-info rounded-pill">
+                <span className="badge bg-dark rounded-pill">
                   {statistics.booksDueSoon.length}
                 </span>
               )}

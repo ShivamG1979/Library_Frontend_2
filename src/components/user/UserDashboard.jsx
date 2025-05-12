@@ -32,7 +32,7 @@ const UserDashboard = () => {
             <div className="card h-100 shadow-sm">
               <div className="card-header d-flex justify-content-between align-items-center bg-white">
                 <h4 className="mb-0">Your Borrowed Books</h4>
-                <span className="badge bg-primary rounded-pill">{borrowedBooks.length}</span>
+                <span className="badge bg-dark rounded-pill">{borrowedBooks.length}</span>
               </div>
               <div className="card-body">
                 {borrowedBooks.length > 0 ? (
@@ -104,7 +104,7 @@ const UserDashboard = () => {
               <div className="card-body">
                 <div className="row">
                   <div className="col-md-3 col-6 mb-3">
-                    <Link to="/" className="btn btn-outline-primary w-100 h-100 d-flex flex-column justify-content-center align-items-center py-3">
+                    <Link to="/" className="btn btn-outline-dark w-100 h-100 d-flex flex-column justify-content-center align-items-center py-3">
                       <i className="bi bi-book fs-4 mb-2"></i>
                       Browse Books
                     </Link>
@@ -122,7 +122,7 @@ const UserDashboard = () => {
                     </Link>
                   </div>
                   <div className="col-md-3 col-6 mb-3">
-                    <Link to="/profile" className="btn btn-outline-info w-100 h-100 d-flex flex-column justify-content-center align-items-center py-3">
+                    <Link to="/profile" className="btn btn-outline-secondary w-100 h-100 d-flex flex-column justify-content-center align-items-center py-3">
                       <i className="bi bi-person-circle fs-4 mb-2"></i>
                       My Profile
                     </Link>

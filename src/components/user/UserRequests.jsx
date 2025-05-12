@@ -44,7 +44,7 @@ const UserRequests = () => {
 
   return (
     <div className="container py-4">
-      <h2 className="mb-4 text-primary">My Book Requests</h2>
+      <h2 className="mb-4 text-black">My Book Requests</h2>
       
       {userRequests.length === 0 ? (
         <div className="alert alert-info" role="alert">

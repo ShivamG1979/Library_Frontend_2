@@ -1,0 +1,20 @@
+
+
+/* Remove default blue background on active links */
+.nav-link.active {
+  background-color: transparent !important; /* Remove background */
+  color: white !important; /* Keep text white */
+}
+
+/* Change background color on hover */
+.nav-link:hover {
+  background-color: #f8f9fa !important; /* Light gray on hover */
+  color: black !important; /* Change text color */
+}
+
+/* Remove focus outline */
+.nav-link:focus, .nav-link:focus-visible {
+  outline: none !important;
+  box-shadow: none !important;
+}
+

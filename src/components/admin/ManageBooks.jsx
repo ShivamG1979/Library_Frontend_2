@@ -92,7 +92,7 @@ const ManageBooks = () => {
 
       <div className="d-flex justify-content-between mb-4">
         <button
-          className={`btn ${showAddForm ? 'btn-secondary' : 'btn-primary'}`}
+          className={`btn ${showAddForm ? 'btn-secondary' : 'btn-dark'}`}
           onClick={() => {
             setShowAddForm(!showAddForm);
             setShowEditForm(false);
@@ -272,7 +272,7 @@ const ManageBooks = () => {
                       </td>
                       <td>
                         <div className="d-flex gap-2">
-                          <button className="btn btn-sm btn-info" onClick={() => handleEdit(book)}>Edit</button>
+                          <button className="btn btn-sm btn-dark" onClick={() => handleEdit(book)}>Edit</button>
                           <button className="btn btn-sm btn-danger" onClick={() => handleDelete(book._id)}>Delete</button>
                         </div>
                       </td>

@@ -1,4 +1,3 @@
-// src/components/admin/BookRequestsManager.jsx
 import { useEffect, useState } from 'react';
 import { useAdmin } from '../../context/AdminContext';
 
@@ -88,7 +87,7 @@ const BookRequestsManager = () => {
                 />
               </div>
               <div className="d-flex gap-2">
-                <button type="submit" className="btn btn-primary">Approve Request</button>
+                <button type="submit" className="btn btn-success">Approve Request</button>
                 <button 
                   type="button" 
                   className="btn btn-secondary"
@@ -149,7 +148,7 @@ const BookRequestsManager = () => {
                       request.status === 'approved' ? 'bg-success' :
                       request.status === 'pending' ? 'bg-warning text-dark' :
                       request.status === 'rejected' ? 'bg-danger' :
-                      request.status === 'returned' ? 'bg-info' : 'bg-secondary'
+                      request.status === 'returned' ? 'bg-secondary' : 'bg-secondary'
                     }`}>
                       {request.status}
                     </span>
@@ -171,7 +170,7 @@ const BookRequestsManager = () => {
                       </div>
                     )}
                     {request.status === 'approved' && (
-                      <button className="btn btn-sm btn-info" onClick={() => handleReturn(request._id)}>
+                      <button className="btn btn-sm btn-secondary" onClick={() => handleReturn(request._id)}>
                         Process Return
                       </button>
                     )}

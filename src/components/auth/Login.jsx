@@ -1,4 +1,3 @@
-// src/components/auth/Login.jsx
 import { useState, useEffect } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { useAuth } from "../../context/AuthContext";
@@ -78,7 +77,7 @@ const Login = () => {
                 <div className="d-grid">
                   <button
                     type="submit"
-                    className="btn btn-primary"
+                    className="btn btn btn-dark"
                     disabled={loading}
                   >
                     {loading ? "Logging in..." : "Login"}
@@ -87,11 +86,13 @@ const Login = () => {
                 <div className="text-center mt-3">
                   <p>
                     Don't have an account?{" "}
-                    <Link to="/register">Register here</Link>
+                    <Link to="/register" className="text-dark">
+                      Register here
+                    </Link>
                   </p>
                 </div>
                 <div className="text-center mt-2">
-                  <Link to="/" className="btn btn-secondary btn-sm">
+                  <Link to="/" className="btn  btn btn-dark">
                     Home
                   </Link>
                 </div>

@@ -7,7 +7,7 @@ import { useAuth } from '../../context/AuthContext';
 
 const BookList = () => {
   const { books, loading, error, getAllBooks } = useBook();
-  const { isAuthenticated } = useAuth(); // Check authentication status
+  const { isAuthenticated } = useAuth();
   const [searchTerm, setSearchTerm] = useState('');
   const [currentPage, setCurrentPage] = useState(1);
   const booksPerPage = 8;
@@ -30,26 +30,22 @@ const BookList = () => {
 
   useEffect(() => {
     if (isAuthenticated) {
-      setRandomBooks([]); // Clear random books if authenticated
+      setRandomBooks([]);
     } else {
-      // Show 8 random books when not logged in
       const shuffledBooks = [...books].sort(() => 0.5 - Math.random());
       setRandomBooks(shuffledBooks.slice(0, 8));
     }
-  }, [isAuthenticated, books]); // Re-run when books or authentication state changes
+  }, [isAuthenticated, books]);
 
-  // Filter books based on search term
   const filteredBooks = books.filter(book =>
     book.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
     book.author.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
-  // Pagination logic
   const indexOfLastBook = currentPage * booksPerPage;
   const indexOfFirstBook = indexOfLastBook - booksPerPage;
   const currentBooks = isAuthenticated ? filteredBooks.slice(indexOfFirstBook, indexOfLastBook) : randomBooks;
 
-  // Handle search change
   const handleSearch = (e) => {
     const searchValue = e.target.value;
     setSearchTerm(searchValue);
@@ -63,7 +59,6 @@ const BookList = () => {
     });
   };
 
-  // Pagination buttons
   const renderPaginationItems = () => {
     const items = [];
     const totalPages = Math.ceil(filteredBooks.length / booksPerPage);
@@ -71,7 +66,7 @@ const BookList = () => {
     items.push(
       <li key="prev" className={`page-item ${currentPage === 1 ? 'disabled' : ''}`}>
         <button
-          className="page-link"
+          className="page-link custom-page-link"
           onClick={() => currentPage > 1 && setCurrentPage(currentPage - 1)}
           aria-label="Previous"
         >
@@ -82,8 +77,13 @@ const BookList = () => {
 
     for (let i = Math.max(1, currentPage - 1); i <= Math.min(totalPages, currentPage + 1); i++) {
       items.push(
-        <li key={i} className={`page-item ${currentPage === i ? 'active' : ''}`}>
-          <button className="page-link" onClick={() => setCurrentPage(i)}>{i}</button>
+        <li key={i} className={`page-item ${currentPage === i ? 'active-page' : ''}`}>
+          <button 
+            className="page-link custom-page-link" 
+            onClick={() => setCurrentPage(i)}
+          >
+            {i}
+          </button>
         </li>
       );
     }
@@ -91,7 +91,7 @@ const BookList = () => {
     items.push(
       <li key="next" className={`page-item ${currentPage === totalPages || totalPages === 0 ? 'disabled' : ''}`}>
         <button
-          className="page-link"
+          className="page-link custom-page-link"
           onClick={() => currentPage < totalPages && setCurrentPage(currentPage + 1)}
           aria-label="Next"
         >
@@ -106,7 +106,7 @@ const BookList = () => {
   if (loading) {
     return (
       <div className="container mt-5 text-center">
-        <div className="spinner-border" role="status">
+        <div className="spinner-border text-secondary" role="status">
           <span className="visually-hidden">Loading...</span>
         </div>
       </div>
@@ -116,7 +116,7 @@ const BookList = () => {
   if (error) {
     return (
       <div className="container mt-4">
-        <div className="alert alert-danger">
+        <div className="alert alert-secondary">
           Error: {error}
         </div>
       </div>
@@ -126,22 +126,24 @@ const BookList = () => {
   return (
     <div className="container mt-4">
       <div className="d-flex justify-content-between align-items-center mb-4">
-        <h2>Available Books</h2>
-        <div className="w-50">
-          <input
-            type="text"
-            className="form-control"
-            placeholder="Search by title or author..."
-            value={searchTerm}
-            onChange={handleSearch}
-          />
-        </div>
+        <h2 className="text-dark">Available Books</h2>
+        {isAuthenticated && (
+          <div className="d-flex">
+            <input
+              type="text"
+              className="form-control border-secondary"
+              placeholder="Search by title or author..."
+              value={searchTerm}
+              onChange={handleSearch}
+            />
+          </div>
+        )}
       </div>
 
       {books.length === 0 ? (
-        <div className="alert alert-info">No books available</div>
+        <div className="alert alert-secondary">No books available</div>
       ) : filteredBooks.length === 0 && isAuthenticated ? (
-        <div className="alert alert-warning">No books match your search</div>
+        <div className="alert alert-secondary">No books match your search</div>
       ) : (
         <>
           <div className="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-4">
@@ -161,27 +163,27 @@ const BookList = () => {
             ))}
           </div>
 
-          {!isAuthenticated && (
-            <div className="text-center mt-4">
-              <button
-                className="btn btn-primary"
-                onClick={() => navigate('/login')}
-              >
-                Log in to see more books
-              </button>
-            </div>
-          )}
-
           {isAuthenticated && (
             <div className="mt-4 text-center">
               <nav aria-label="Book pagination">
-                <ul className="pagination justify-content-center mb-4">
+                <ul className="pagination justify-content-center mb-4 custom-pagination">
                   {renderPaginationItems()}
                 </ul>
               </nav>
             </div>
           )}
         </>
+      )}
+
+      {!isAuthenticated && (
+        <div className="text-center mt-4">
+          <button
+            className="btn btn-secondary"
+            onClick={() => navigate('/login')}
+          >
+            <h3>Log in to see more books</h3>
+          </button>
+        </div>
       )}
     </div>
   );

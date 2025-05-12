@@ -29,10 +29,10 @@ const BorrowedBooks = () => {
 
   return (
     <div className="container py-4">
-      <h2 className="mb-4 text-primary">My Borrowed Books</h2>
+      <h2 className="mb-4 text-black">My Borrowed Books</h2>
       
       {borrowedBooks.length === 0 ? (
-        <div className="alert alert-info" role="alert">
+        <div className="alert alert-warning" role="alert">
           You have no borrowed books.
         </div>
       ) : (

@@ -1,4 +1,3 @@
-// src/components/user/UserProfile.jsx
 import { useState } from 'react';
 import { useAuth } from '../../context/AuthContext';
 
@@ -66,7 +65,7 @@ const UserProfile = () => {
       <div className="row justify-content-center">
         <div className="col-md-8 col-lg-6">
           <div className="card shadow">
-            <div className="card-header bg-primary text-white">
+            <div className="card-header" style={{ backgroundColor: 'black', color: '#fff' }}>
               <h3 className="mb-0">User Profile</h3>
             </div>
             <div className="card-body">
@@ -153,7 +152,7 @@ const UserProfile = () => {
                 </div>
 
                 <div className="d-grid">
-                  <button type="submit" className="btn btn-primary">
+                  <button type="submit" className="btn" style={{ backgroundColor: 'black', color: '#fff' }}>
                     Update Profile
                   </button>
                 </div>

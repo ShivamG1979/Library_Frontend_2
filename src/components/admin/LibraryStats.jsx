@@ -1,4 +1,3 @@
-// src/components/admin/LibraryStats.jsx
 import { useEffect } from 'react';
 import { useAdmin } from '../../context/AdminContext';
 
@@ -24,7 +23,7 @@ const LibraryStats = () => {
       <div className="row">
         <div className="col-md-6 mb-4">
           <div className="card">
-            <div className="card-header bg-primary text-white">
+            <div className="card-header bg-success text-white">
               <h3 className="card-title h5 mb-0">Book Statistics</h3>
             </div>
             <div className="card-body">
@@ -50,7 +49,7 @@ const LibraryStats = () => {
         
         <div className="col-md-6 mb-4">
           <div className="card">
-            <div className="card-header bg-success text-white">
+            <div className="card-header bg-warning text-white">
               <h3 className="card-title h5 mb-0">User Statistics</h3>
             </div>
             <div className="card-body">
@@ -74,7 +73,7 @@ const LibraryStats = () => {
       <div className="row">
         <div className="col-md-12 mb-4">
           <div className="card">
-            <div className="card-header bg-info text-white">
+            <div className="card-header bg-secondary text-white">
               <h3 className="card-title h5 mb-0">Activity Statistics</h3>
             </div>
             <div className="card-body">
@@ -100,7 +99,7 @@ const LibraryStats = () => {
       </div>
       
       <div className="card mb-4">
-        <div className="card-header bg-warning">
+        <div className="card-header bg-danger text-white">
           <h3 className="card-title h5 mb-0">Overdue Books</h3>
         </div>
         <div className="card-body">
@@ -140,7 +139,7 @@ const LibraryStats = () => {
       </div>
       
       <div className="card mb-4">
-        <div className="card-header bg-secondary text-white">
+        <div className="card-header bg-dark text-white">
           <h3 className="card-title h5 mb-0">Popular Books</h3>
         </div>
         <div className="card-body">
