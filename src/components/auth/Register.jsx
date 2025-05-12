@@ -36,7 +36,7 @@ const Register = () => {
   };
 
   return (
-    <div className="container">
+    <div className="container mt-5">
       <div className="row justify-content-center">
         <div className="col-md-6 col-lg-5">
           <div className="card shadow mt-4">
@@ -108,8 +108,12 @@ const Register = () => {
                   <button type="submit" className="btn btn-primary">Register</button>
                 </div>
                 <div className="text-center mt-3">
-                  <p>Already have an account? <Link to="/login">Login here</Link></p>
-                </div>
+  <p>Already have an account? <Link to="/login">Login here</Link></p>
+</div>
+<div className="text-center mt-2">
+  <Link to="/" className="btn btn-secondary btn-sm">Home</Link>
+</div>
+
               </form>
             </div>
           </div>

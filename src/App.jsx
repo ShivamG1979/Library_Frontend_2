@@ -1,12 +1,13 @@
-// src/App.jsx
-import { Routes, Route } from 'react-router-dom';
+import { Routes, Route, useLocation } from 'react-router-dom';
 import { useAuth } from './context/AuthContext';
 
 // Layout Components
 import Navbar from './components/layout/Navbar';
+import Footer from './components/layout/Footer';
 import PrivateRoute from './components/layout/PrivateRoute';
 
 // Public Components
+import HomePage from './components/layout/Home';
 import BookList from './components/books/BookList';
 import BookDetail from './components/books/BookDetail';
 import Login from './components/auth/Login';
@@ -26,12 +27,16 @@ import BookRequestsManager from './components/admin/BookRequestsManager';
 import LibraryStats from './components/admin/LibraryStats';
 
 const App = () => {
-  const { loading } = useAuth();
+  const { loading, isAuthenticated, isAdmin } = useAuth();
+  const location = useLocation();
+  
+  // Only show navbar on the user dashboard page
+  const showNavbar = location.pathname === '/dashboard';
 
   if (loading) {
     return (
-      <div className="d-flex justify-content-center align-items-center" style={{ height: '100vh' }}>
-        <div className="spinner-border text-primary" role="status">
+      <div className="d-flex justify-content-center align-items-center bg-light" style={{ height: '100vh' }}>
+        <div className="spinner-grow text-primary" role="status" style={{ width: '3rem', height: '3rem' }}>
           <span className="visually-hidden">Loading...</span>
         </div>
       </div>
@@ -39,12 +44,15 @@ const App = () => {
   }
 
   return (
-    <div className="min-vh-100 d-flex flex-column">
-      <Navbar />
-      <div className="container py-4 flex-grow-1">
+    <div className="min-vh-100 d-flex flex-column bg-light">
+      {/* Only show Navbar on user dashboard */}
+      {showNavbar && <Navbar />}
+      
+      <div className={`flex-grow-1 ${showNavbar ? 'pt-5 mt-4' : 'pt-0'}`}>
         <Routes>
           {/* Public Routes */}
-          <Route path="/" element={<BookList />} />
+          <Route path="/" element={<HomePage />} />
+          <Route path="/books" element={<BookList />} />
           <Route path="/books/:id" element={<BookDetail />} />
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
@@ -63,11 +71,8 @@ const App = () => {
           <Route path="/admin/stats" element={<PrivateRoute adminOnly={true}><LibraryStats /></PrivateRoute>} />
         </Routes>
       </div>
-      <footer className="bg-light py-3 mt-auto">
-        <div className="container text-center">
-          <p className="mb-0 text-muted">© 2025 Library Manager. All rights reserved.</p>
-        </div>
-      </footer>
+      
+      {/* Remove footer from all pages */}
     </div>
   );
 };

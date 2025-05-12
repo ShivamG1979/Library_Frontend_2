@@ -1,12 +1,12 @@
 // src/components/auth/Login.jsx
-import { useState, useEffect } from 'react';
-import { useNavigate, Link } from 'react-router-dom';
-import { useAuth } from '../../context/AuthContext';
+import { useState, useEffect } from "react";
+import { useNavigate, Link } from "react-router-dom";
+import { useAuth } from "../../context/AuthContext";
 
 const Login = () => {
   const [formData, setFormData] = useState({
-    email: '',
-    password: ''
+    email: "",
+    password: "",
   });
 
   const { login, error, isAuthenticated, isAdmin, loading } = useAuth();
@@ -25,15 +25,15 @@ const Login = () => {
   useEffect(() => {
     if (isAuthenticated) {
       if (isAdmin) {
-        navigate('/admin');
+        navigate("/admin");
       } else {
-        navigate('/dashboard');
+        navigate("/dashboard");
       }
     }
   }, [isAuthenticated, isAdmin, navigate]);
 
   return (
-    <div className="container">
+    <div className="container mt-5">
       <div className="row justify-content-center">
         <div className="col-md-6 col-lg-5">
           <div className="card shadow mt-4">
@@ -48,7 +48,9 @@ const Login = () => {
 
               <form onSubmit={handleSubmit}>
                 <div className="mb-3">
-                  <label htmlFor="email" className="form-label">Email</label>
+                  <label htmlFor="email" className="form-label">
+                    Email
+                  </label>
                   <input
                     type="email"
                     className="form-control"
@@ -60,7 +62,9 @@ const Login = () => {
                   />
                 </div>
                 <div className="mb-3">
-                  <label htmlFor="password" className="form-label">Password</label>
+                  <label htmlFor="password" className="form-label">
+                    Password
+                  </label>
                   <input
                     type="password"
                     className="form-control"
@@ -72,12 +76,24 @@ const Login = () => {
                   />
                 </div>
                 <div className="d-grid">
-                  <button type="submit" className="btn btn-primary" disabled={loading}>
-                    {loading ? 'Logging in...' : 'Login'}
+                  <button
+                    type="submit"
+                    className="btn btn-primary"
+                    disabled={loading}
+                  >
+                    {loading ? "Logging in..." : "Login"}
                   </button>
                 </div>
                 <div className="text-center mt-3">
-                  <p>Don't have an account? <Link to="/register">Register here</Link></p>
+                  <p>
+                    Don't have an account?{" "}
+                    <Link to="/register">Register here</Link>
+                  </p>
+                </div>
+                <div className="text-center mt-2">
+                  <Link to="/" className="btn btn-secondary btn-sm">
+                    Home
+                  </Link>
                 </div>
               </form>
             </div>

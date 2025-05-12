@@ -58,7 +58,7 @@ const BookDetail = () => {
     <div className="container mt-4">
       <nav aria-label="breadcrumb">
         <ol className="breadcrumb">
-          <li className="breadcrumb-item"><a href="/">Books</a></li>
+          <li className="breadcrumb-item"><a href="/books">Books</a></li>
           <li className="breadcrumb-item active" aria-current="page">{book.title}</li>
         </ol>
       </nav>
