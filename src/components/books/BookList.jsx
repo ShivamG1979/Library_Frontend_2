@@ -3,14 +3,17 @@ import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useBook } from '../../context/BookContext';
 import BookCard from './BookCard';
 import 'animate.css';
+import { useAuth } from '../../context/AuthContext';
 
 const BookList = () => {
   const { books, loading, error, getAllBooks } = useBook();
+  const { isAuthenticated } = useAuth(); // Check authentication status
   const [searchTerm, setSearchTerm] = useState('');
   const [currentPage, setCurrentPage] = useState(1);
   const booksPerPage = 8;
   const navigate = useNavigate();
   const location = useLocation();
+  const [randomBooks, setRandomBooks] = useState([]);
 
   useEffect(() => {
     getAllBooks();
@@ -25,28 +28,28 @@ const BookList = () => {
     setSearchTerm(search);
   }, [location.search]);
 
+  useEffect(() => {
+    if (isAuthenticated) {
+      setRandomBooks([]); // Clear random books if authenticated
+    } else {
+      // Show 8 random books when not logged in
+      const shuffledBooks = [...books].sort(() => 0.5 - Math.random());
+      setRandomBooks(shuffledBooks.slice(0, 8));
+    }
+  }, [isAuthenticated, books]); // Re-run when books or authentication state changes
+
+  // Filter books based on search term
   const filteredBooks = books.filter(book =>
     book.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
     book.author.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
+  // Pagination logic
   const indexOfLastBook = currentPage * booksPerPage;
   const indexOfFirstBook = indexOfLastBook - booksPerPage;
-  const currentBooks = filteredBooks.slice(indexOfFirstBook, indexOfLastBook);
-  const totalPages = Math.ceil(filteredBooks.length / booksPerPage);
+  const currentBooks = isAuthenticated ? filteredBooks.slice(indexOfFirstBook, indexOfLastBook) : randomBooks;
 
-  const paginate = (pageNumber) => {
-    const query = new URLSearchParams();
-    if (pageNumber !== 1) query.set('page', pageNumber);
-    if (searchTerm) query.set('search', searchTerm);
-
-    const queryString = query.toString();
-    navigate({
-      pathname: location.pathname,
-      search: queryString ? `?${queryString}` : ''
-    });
-  };
-
+  // Handle search change
   const handleSearch = (e) => {
     const searchValue = e.target.value;
     setSearchTerm(searchValue);
@@ -60,14 +63,16 @@ const BookList = () => {
     });
   };
 
+  // Pagination buttons
   const renderPaginationItems = () => {
     const items = [];
+    const totalPages = Math.ceil(filteredBooks.length / booksPerPage);
 
     items.push(
       <li key="prev" className={`page-item ${currentPage === 1 ? 'disabled' : ''}`}>
         <button
           className="page-link"
-          onClick={() => currentPage > 1 && paginate(currentPage - 1)}
+          onClick={() => currentPage > 1 && setCurrentPage(currentPage - 1)}
           aria-label="Previous"
         >
           <span aria-hidden="true">&laquo;</span>
@@ -75,42 +80,10 @@ const BookList = () => {
       </li>
     );
 
-    if (currentPage > 3) {
-      items.push(
-        <li key="1" className="page-item">
-          <button className="page-link" onClick={() => paginate(1)}>1</button>
-        </li>
-      );
-
-      if (currentPage > 4) {
-        items.push(
-          <li key="ellipsis1" className="page-item disabled">
-            <span className="page-link">...</span>
-          </li>
-        );
-      }
-    }
-
     for (let i = Math.max(1, currentPage - 1); i <= Math.min(totalPages, currentPage + 1); i++) {
       items.push(
         <li key={i} className={`page-item ${currentPage === i ? 'active' : ''}`}>
-          <button className="page-link" onClick={() => paginate(i)}>{i}</button>
-        </li>
-      );
-    }
-
-    if (currentPage < totalPages - 2) {
-      if (currentPage < totalPages - 3) {
-        items.push(
-          <li key="ellipsis2" className="page-item disabled">
-            <span className="page-link">...</span>
-          </li>
-        );
-      }
-
-      items.push(
-        <li key={totalPages} className="page-item">
-          <button className="page-link" onClick={() => paginate(totalPages)}>{totalPages}</button>
+          <button className="page-link" onClick={() => setCurrentPage(i)}>{i}</button>
         </li>
       );
     }
@@ -119,7 +92,7 @@ const BookList = () => {
       <li key="next" className={`page-item ${currentPage === totalPages || totalPages === 0 ? 'disabled' : ''}`}>
         <button
           className="page-link"
-          onClick={() => currentPage < totalPages && paginate(currentPage + 1)}
+          onClick={() => currentPage < totalPages && setCurrentPage(currentPage + 1)}
           aria-label="Next"
         >
           <span aria-hidden="true">&raquo;</span>
@@ -167,7 +140,7 @@ const BookList = () => {
 
       {books.length === 0 ? (
         <div className="alert alert-info">No books available</div>
-      ) : filteredBooks.length === 0 ? (
+      ) : filteredBooks.length === 0 && isAuthenticated ? (
         <div className="alert alert-warning">No books match your search</div>
       ) : (
         <>
@@ -188,13 +161,26 @@ const BookList = () => {
             ))}
           </div>
 
-          <div className="mt-4 text-center">
-            <nav aria-label="Book pagination">
-              <ul className="pagination justify-content-center mb-4">
-                {renderPaginationItems()}
-              </ul>
-            </nav>
-          </div>
+          {!isAuthenticated && (
+            <div className="text-center mt-4">
+              <button
+                className="btn btn-primary"
+                onClick={() => navigate('/login')}
+              >
+                Log in to see more books
+              </button>
+            </div>
+          )}
+
+          {isAuthenticated && (
+            <div className="mt-4 text-center">
+              <nav aria-label="Book pagination">
+                <ul className="pagination justify-content-center mb-4">
+                  {renderPaginationItems()}
+                </ul>
+              </nav>
+            </div>
+          )}
         </>
       )}
     </div>

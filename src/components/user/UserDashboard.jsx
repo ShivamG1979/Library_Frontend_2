@@ -3,7 +3,6 @@ import { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
 import { useBook } from '../../context/BookContext';
-import Navbar from '../layout/Navbar'; // Import Navbar component
 
 const UserDashboard = () => {
   const { user } = useAuth();
@@ -18,8 +17,7 @@ const UserDashboard = () => {
 
   return (
     <>
-      {/* Include Navbar directly in the UserDashboard */}
-      <Navbar />
+  
       
       <div className="container mt-5">
         <div className="row mb-4">

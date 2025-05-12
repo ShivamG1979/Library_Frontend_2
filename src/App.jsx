@@ -2,8 +2,7 @@ import { Routes, Route, useLocation } from 'react-router-dom';
 import { useAuth } from './context/AuthContext';
 
 // Layout Components
-import Navbar from './components/layout/Navbar';
-import Footer from './components/layout/Footer';
+import Sidebar from './components/layout/Sidebar';
 import PrivateRoute from './components/layout/PrivateRoute';
 
 // Public Components
@@ -27,11 +26,11 @@ import BookRequestsManager from './components/admin/BookRequestsManager';
 import LibraryStats from './components/admin/LibraryStats';
 
 const App = () => {
-  const { loading, isAuthenticated, isAdmin } = useAuth();
+  const { loading, isAuthenticated } = useAuth();
   const location = useLocation();
   
-  // Only show navbar on the user dashboard page
-  const showNavbar = location.pathname === '/dashboard';
+  // Hide sidebar on login and register pages
+  const hideSidebar = location.pathname === '/login' || location.pathname === '/register';
 
   if (loading) {
     return (
@@ -45,34 +44,46 @@ const App = () => {
 
   return (
     <div className="min-vh-100 d-flex flex-column bg-light">
-      {/* Only show Navbar on user dashboard */}
-      {showNavbar && <Navbar />}
-      
-      <div className={`flex-grow-1 ${showNavbar ? 'pt-5 mt-4' : 'pt-0'}`}>
-        <Routes>
-          {/* Public Routes */}
-          <Route path="/" element={<HomePage />} />
-          <Route path="/books" element={<BookList />} />
-          <Route path="/books/:id" element={<BookDetail />} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/register" element={<Register />} />
+      <div className="container-fluid p-0">
+        <div className="row g-0">
+          {/* Sidebar - Don't show on login/register pages */}
+          {!hideSidebar && <Sidebar />}
+          
+          {/* Main Content Area */}
+          <div 
+            className="col" 
+            style={{ 
+              marginLeft: hideSidebar ? '0' : '250px', 
+              transition: 'margin-left 0.3s',
+              minHeight: '100vh'
+            }}
+          >
+            <div className="p-4">
+              <Routes>
+                {/* Public Routes */}
+                <Route path="/" element={<HomePage />} />
+                <Route path="/books" element={<BookList />} />
+                <Route path="/books/:id" element={<BookDetail />} />
+                <Route path="/login" element={<Login />} />
+                <Route path="/register" element={<Register />} />
 
-          {/* User Routes */}
-          <Route path="/dashboard" element={<PrivateRoute><UserDashboard /></PrivateRoute>} />
-          <Route path="/my-requests" element={<PrivateRoute><UserRequests /></PrivateRoute>} />
-          <Route path="/borrowed-books" element={<PrivateRoute><BorrowedBooks /></PrivateRoute>} />
-          <Route path="/profile" element={<PrivateRoute><UserProfile /></PrivateRoute>} />
+                {/* User Routes */}
+                <Route path="/dashboard" element={<PrivateRoute><UserDashboard /></PrivateRoute>} />
+                <Route path="/my-requests" element={<PrivateRoute><UserRequests /></PrivateRoute>} />
+                <Route path="/borrowed-books" element={<PrivateRoute><BorrowedBooks /></PrivateRoute>} />
+                <Route path="/profile" element={<PrivateRoute><UserProfile /></PrivateRoute>} />
 
-          {/* Admin Routes */}
-          <Route path="/admin" element={<PrivateRoute adminOnly={true}><AdminDashboard /></PrivateRoute>} />
-          <Route path="/admin/books" element={<PrivateRoute adminOnly={true}><ManageBooks /></PrivateRoute>} />
-          <Route path="/admin/users" element={<PrivateRoute adminOnly={true}><ManageUsers /></PrivateRoute>} />
-          <Route path="/admin/requests" element={<PrivateRoute adminOnly={true}><BookRequestsManager /></PrivateRoute>} />
-          <Route path="/admin/stats" element={<PrivateRoute adminOnly={true}><LibraryStats /></PrivateRoute>} />
-        </Routes>
+                {/* Admin Routes */}
+                <Route path="/admin" element={<PrivateRoute adminOnly={true}><AdminDashboard /></PrivateRoute>} />
+                <Route path="/admin/books" element={<PrivateRoute adminOnly={true}><ManageBooks /></PrivateRoute>} />
+                <Route path="/admin/users" element={<PrivateRoute adminOnly={true}><ManageUsers /></PrivateRoute>} />
+                <Route path="/admin/requests" element={<PrivateRoute adminOnly={true}><BookRequestsManager /></PrivateRoute>} />
+                <Route path="/admin/stats" element={<PrivateRoute adminOnly={true}><LibraryStats /></PrivateRoute>} />
+              </Routes>
+            </div>
+          </div>
+        </div>
       </div>
-      
-      {/* Remove footer from all pages */}
     </div>
   );
 };
