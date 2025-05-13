@@ -6,6 +6,7 @@ import BookCard from '../books/BookCard';
 const HomePage = () => {
   const { books, loading, error, getAllBooks } = useBook();
   const [featuredBooks, setFeaturedBooks] = useState([]);
+  const isLoggedIn = !!localStorage.getItem("token"); // Check login state
 
   useEffect(() => {
     getAllBooks();
@@ -36,9 +37,11 @@ const HomePage = () => {
               <Link to="/books" className="btn btn-dark">
                 Browse Library
               </Link>
-              <Link to="/register" className="btn btn-outline-dark">
-                Get Started
-              </Link>
+              {!isLoggedIn && (
+                <Link to="/register" className="btn btn-outline-dark">
+                  Get Started
+                </Link>
+              )}
             </div>
           </div>
           <div className="col-lg-6 text-center">
@@ -107,10 +110,12 @@ const HomePage = () => {
           <p className="lead mb-5">
             Join thousands of readers. Access unlimited books at your fingertips.
           </p>
-          <div>
-            <Link to="/login" className="btn btn-light me-3">Log In</Link>
-            <Link to="/register" className="btn btn-outline-light">Sign Up</Link>
-          </div>
+          {!isLoggedIn && (
+            <div>
+              <Link to="/login" className="btn btn-light me-3">Log In</Link>
+              <Link to="/register" className="btn btn-outline-light">Sign Up</Link>
+            </div>
+          )}
         </div>
       </div>
     </div>

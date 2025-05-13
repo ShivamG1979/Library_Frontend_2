@@ -17,7 +17,7 @@ import UserDashboard from './components/user/UserDashboard';
 import UserRequests from './components/user/UserRequests';
 import BorrowedBooks from './components/user/BorrowedBooks';
 import UserProfile from './components/user/UserProfile';
-
+ 
 // Admin Components
 import AdminDashboard from './components/admin/AdminDashboard';
 import ManageBooks from './components/admin/ManageBooks';
@@ -26,7 +26,7 @@ import BookRequestsManager from './components/admin/BookRequestsManager';
 import LibraryStats from './components/admin/LibraryStats';
 
 const App = () => {
-  const { loading, isAuthenticated } = useAuth();
+  const { loading } = useAuth();
   const location = useLocation();
   
   // Hide sidebar on login and register pages
@@ -34,31 +34,24 @@ const App = () => {
 
   if (loading) {
     return (
-      <div className="d-flex justify-content-center align-items-center bg-light" style={{ height: '100vh' }}>
-        <div className="spinner-grow text-primary" role="status" style={{ width: '3rem', height: '3rem' }}>
-          <span className="visually-hidden">Loading...</span>
-        </div>
+      <div>
+        <div>Loading...</div>
       </div>
-    );
+    ); 
   }
 
   return (
-    <div className="min-vh-100 d-flex flex-column bg-light">
-      <div className="container-fluid p-0">
-        <div className="row g-0">
+    <div>
+      <div>
+        <div>
           {/* Sidebar - Don't show on login/register pages */}
           {!hideSidebar && <Sidebar />}
           
           {/* Main Content Area */}
           <div 
-            className="col" 
-            style={{ 
-              marginLeft: hideSidebar ? '0' : '250px', 
-              transition: 'margin-left 0.3s',
-              minHeight: '100vh'
-            }}
+            style={{ marginLeft: hideSidebar ? '0' : '250px', transition: 'margin-left 0.3s', minHeight: '100vh' }}
           >
-            <div className="p-4">
+            <div>
               <Routes>
                 {/* Public Routes */}
                 <Route path="/" element={<HomePage />} />

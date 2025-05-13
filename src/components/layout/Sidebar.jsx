@@ -20,23 +20,25 @@ const Sidebar = () => {
   };
 
   return (
-    <div
-      className={`col-auto px-0 bg-dark text-white ${collapsed ? "sidebar-collapsed" : ""} position-fixed h-100`}
-    >
-      <div className="d-flex flex-column align-items-center align-items-sm-start pt-2 text-white min-vh-100">
-        <div className="w-100 d-flex justify-content-between align-items-center px-3 py-3 border-bottom border-secondary">
-          {!collapsed && (
-            <span className="fs-5 d-none d-sm-inline fw-bold">
-              Library System
-            </span>
-          )}
-          <button
-            className="btn btn-sm btn-dark"
-            onClick={() => setCollapsed(!collapsed)}
-          >
-            <i className={`bi bi-${collapsed ? "chevron-right" : "chevron-left"}`}></i>
-          </button>
-        </div>
+ <div
+  className={`bg-dark text-white position-fixed top-0 start-0 h-100 ${
+    collapsed ? "sidebar-collapsed" : ""
+  }`}
+  style={{ width: collapsed ? "60px" : "200px", zIndex: 1040 }} 
+>
+  <div className="d-flex flex-column align-items-center align-items-sm-start pt-3 text-white min-vh-100">
+    <div className="w-100 d-flex justify-content-between align-items-center px-3 pb-2 border-bottom border-secondary">
+      {!collapsed && (
+        <span className="fs-5 d-none d-sm-inline fw-bold">Library System</span>
+      )}
+      <button
+        className="btn btn-sm btn-dark"
+        onClick={() => setCollapsed(!collapsed)}
+      >
+        <i className={`bi bi-${collapsed ? "chevron-right" : "chevron-left"}`}></i>
+      </button>
+    </div>
+
 
         <ul className="nav nav-pills flex-column mb-auto w-100 mt-2">
           {/* Public Links */}
