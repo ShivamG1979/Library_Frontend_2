@@ -18,3 +18,15 @@
   box-shadow: none !important;
 }
 
+/* Add hover effect */
+.hover-effect:hover {
+  transform: scale(1.1); /* Slightly enlarge the card */
+  transition: transform 0.3s ease-in-out; /* Smooth transition */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Add shadow on hover */
+}
+
+/* Optional: Add more hover effects */
+.hover-effect:hover .card-img-top {
+  background-color: #f8f9fa; /* Lighten background on hover */
+}
+

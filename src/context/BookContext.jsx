@@ -1,6 +1,7 @@
 // src/context/BookContext.jsx
 import { createContext, useState, useContext } from 'react';
 import axios from 'axios';
+import { API_ENDPOINTS, getAuthConfig } from '../config/apiConfig';
 
 const BookContext = createContext();
 
@@ -14,21 +15,11 @@ export const BookProvider = ({ children }) => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
-  // Get auth token for headers
-  const getConfig = () => {
-    const token = localStorage.getItem('token');
-    return {
-      headers: {
-        'x-auth-token': token
-      }
-    };
-  };
-
   // Get all books
   const getAllBooks = async () => {
     setLoading(true);
     try {
-      const res = await axios.get('http://localhost:5000/api/books');
+      const res = await axios.get(API_ENDPOINTS.books.getAll);
       setBooks(res.data);
       setError(null);
     } catch (err) {
@@ -42,7 +33,7 @@ export const BookProvider = ({ children }) => {
   const getBookById = async (bookId) => {
     setLoading(true);
     try {
-      const res = await axios.get(`http://localhost:5000/api/books/${bookId}`);
+      const res = await axios.get(API_ENDPOINTS.books.getById(bookId));
       setBook(res.data);
       setError(null);
       return res.data;
@@ -59,9 +50,9 @@ export const BookProvider = ({ children }) => {
     setLoading(true);
     try {
       const res = await axios.post(
-        'http://localhost:5000/api/books/request',
+        API_ENDPOINTS.books.request,
         { bookId },
-        getConfig()
+        getAuthConfig()
       );
       setError(null);
       return res.data;
@@ -78,8 +69,8 @@ export const BookProvider = ({ children }) => {
     setLoading(true);
     try {
       const res = await axios.get(
-        'http://localhost:5000/api/books/user/requests',
-        getConfig()
+        API_ENDPOINTS.books.userRequests,
+        getAuthConfig()
       );
       setUserRequests(res.data);
       setError(null);
@@ -97,8 +88,8 @@ export const BookProvider = ({ children }) => {
     setLoading(true);
     try {
       const res = await axios.get(
-        'http://localhost:5000/api/books/user/borrowed',
-        getConfig()
+        API_ENDPOINTS.books.userBorrowed,
+        getAuthConfig()
       );
       setBorrowedBooks(res.data);
       setError(null);

@@ -1,7 +1,7 @@
 // src/components/books/BookCard.jsx
 const BookCard = ({ book }) => {
   return (
-    <div className="card h-100 shadow-sm border-0">
+    <div className="card h-100 shadow-sm border-0 hover-effect">
       <div 
         className="card-img-top d-flex align-items-center justify-content-center bg-light"
         style={{ height: '300px', overflow: 'hidden' }}

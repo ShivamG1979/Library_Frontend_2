@@ -1,6 +1,7 @@
 // src/context/AuthContext.jsx
 import { createContext, useState, useEffect, useContext } from 'react';
 import axios from 'axios';
+import { API_ENDPOINTS, getAuthConfig } from '../config/apiConfig';
 
 const AuthContext = createContext();
 
@@ -24,14 +25,8 @@ export const AuthProvider = ({ children }) => {
         return;
       }
 
-      const config = {
-        headers: {
-          'x-auth-token': token
-        }
-      };
-
       try {
-        const res = await axios.get('http://localhost:5000/api/auth/profile', config);
+        const res = await axios.get(API_ENDPOINTS.auth.profile, getAuthConfig());
         setUser(res.data.user);
         setIsAuthenticated(true);
         setIsAdmin(res.data.user.role === 'admin');
@@ -50,7 +45,7 @@ export const AuthProvider = ({ children }) => {
   const register = async (userData) => {
     setLoading(true);
     try {
-      await axios.post('http://localhost:5000/api/auth/register', userData);
+      await axios.post(API_ENDPOINTS.auth.register, userData);
       setError(null);
       return true;
     } catch (err) {
@@ -65,7 +60,7 @@ export const AuthProvider = ({ children }) => {
   const login = async (userData) => {
     setLoading(true);
     try {
-      const res = await axios.post('http://localhost:5000/api/auth/login', userData);
+      const res = await axios.post(API_ENDPOINTS.auth.login, userData);
       
       localStorage.setItem('token', res.data.token);
       
@@ -93,17 +88,13 @@ export const AuthProvider = ({ children }) => {
   // Update profile
   const updateProfile = async (profileData) => {
     setLoading(true);
-    const token = localStorage.getItem('token');
-    
     const config = {
-      headers: {
-        'Content-Type': 'application/json',
-        'x-auth-token': token
-      }
+      ...getAuthConfig().headers,
+      'Content-Type': 'application/json'
     };
 
     try {
-      const res = await axios.put('http://localhost:5000/api/auth/profile', profileData, config);
+      const res = await axios.put(API_ENDPOINTS.auth.profile, profileData, { headers: config });
       setUser(res.data.user);
       setError(null);
       return true;

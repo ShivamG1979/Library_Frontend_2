@@ -1,6 +1,7 @@
 // src/context/AdminContext.jsx
 import { createContext, useState, useContext } from 'react';
 import axios from 'axios';
+import { API_ENDPOINTS, getAuthConfig } from '../config/apiConfig';
 
 const AdminContext = createContext();
 
@@ -15,21 +16,11 @@ export const AdminProvider = ({ children }) => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
-  // Get auth token for headers
-  const getConfig = () => {
-    const token = localStorage.getItem('token');
-    return {
-      headers: {
-        'x-auth-token': token
-      }
-    };
-  };
-
   // User Management
   const getAllUsers = async () => {
     setLoading(true);
     try {
-      const res = await axios.get('http://localhost:5000/api/admin/users', getConfig());
+      const res = await axios.get(API_ENDPOINTS.admin.users.getAll, getAuthConfig());
       setUsers(res.data);
       setError(null);
       return res.data;
@@ -45,9 +36,9 @@ export const AdminProvider = ({ children }) => {
     setLoading(true);
     try {
       const res = await axios.post(
-        'http://localhost:5000/api/admin/users',
+        API_ENDPOINTS.admin.users.create,
         userData,
-        getConfig()
+        getAuthConfig()
       );
       setError(null);
       return res.data;
@@ -63,9 +54,9 @@ export const AdminProvider = ({ children }) => {
     setLoading(true);
     try {
       const res = await axios.put(
-        `http://localhost:5000/api/admin/users/${userId}`,
+        API_ENDPOINTS.admin.users.update(userId),
         userData,
-        getConfig()
+        getAuthConfig()
       );
       setError(null);
       return res.data;
@@ -80,7 +71,7 @@ export const AdminProvider = ({ children }) => {
   const deleteUser = async (userId) => {
     setLoading(true);
     try {
-      await axios.delete(`http://localhost:5000/api/admin/users/${userId}`, getConfig());
+      await axios.delete(API_ENDPOINTS.admin.users.delete(userId), getAuthConfig());
       setError(null);
       return true;
     } catch (err) {
@@ -95,7 +86,7 @@ export const AdminProvider = ({ children }) => {
   const getAllBooksAdmin = async () => {
     setLoading(true);
     try {
-      const res = await axios.get('http://localhost:5000/api/admin/books', getConfig());
+      const res = await axios.get(API_ENDPOINTS.admin.books.getAll, getAuthConfig());
       setAdminBooks(res.data);
       setError(null);
       return res.data;
@@ -111,9 +102,9 @@ export const AdminProvider = ({ children }) => {
     setLoading(true);
     try {
       const res = await axios.post(
-        'http://localhost:5000/api/admin/books',
+        API_ENDPOINTS.admin.books.create,
         bookData,
-        getConfig()
+        getAuthConfig()
       );
       setError(null);
       return res.data;
@@ -129,9 +120,9 @@ export const AdminProvider = ({ children }) => {
     setLoading(true);
     try {
       const res = await axios.put(
-        `http://localhost:5000/api/admin/books/${bookId}`,
+        API_ENDPOINTS.admin.books.update(bookId),
         bookData,
-        getConfig()
+        getAuthConfig()
       );
       setError(null);
       return res.data;
@@ -146,7 +137,7 @@ export const AdminProvider = ({ children }) => {
   const deleteBook = async (bookId) => {
     setLoading(true);
     try {
-      await axios.delete(`http://localhost:5000/api/admin/books/${bookId}`, getConfig());
+      await axios.delete(API_ENDPOINTS.admin.books.delete(bookId), getAuthConfig());
       setError(null);
       return true;
     } catch (err) {
@@ -161,7 +152,7 @@ export const AdminProvider = ({ children }) => {
   const getAllBookRequests = async () => {
     setLoading(true);
     try {
-      const res = await axios.get('http://localhost:5000/api/admin/requests', getConfig());
+      const res = await axios.get(API_ENDPOINTS.admin.requests.getAll, getAuthConfig());
       setBookRequests(res.data);
       setError(null);
       return res.data;
@@ -176,7 +167,7 @@ export const AdminProvider = ({ children }) => {
   const getPendingRequests = async () => {
     setLoading(true);
     try {
-      const res = await axios.get('http://localhost:5000/api/admin/requests/pending', getConfig());
+      const res = await axios.get(API_ENDPOINTS.admin.requests.getPending, getAuthConfig());
       setPendingRequests(res.data);
       setError(null);
       return res.data;
@@ -192,9 +183,9 @@ export const AdminProvider = ({ children }) => {
     setLoading(true);
     try {
       const res = await axios.put(
-        `http://localhost:5000/api/admin/requests/approve/${requestId}`,
+        API_ENDPOINTS.admin.requests.approve(requestId),
         { dueDate },
-        getConfig()
+        getAuthConfig()
       );
       setError(null);
       return res.data;
@@ -210,9 +201,9 @@ export const AdminProvider = ({ children }) => {
     setLoading(true);
     try {
       const res = await axios.put(
-        `http://localhost:5000/api/admin/requests/reject/${requestId}`,
+        API_ENDPOINTS.admin.requests.reject(requestId),
         {},
-        getConfig()
+        getAuthConfig()
       );
       setError(null);
       return res.data;
@@ -228,9 +219,9 @@ export const AdminProvider = ({ children }) => {
     setLoading(true);
     try {
       const res = await axios.put(
-        `http://localhost:5000/api/admin/requests/return/${requestId}`,
+        API_ENDPOINTS.admin.requests.processReturn(requestId),
         {},
-        getConfig()
+        getAuthConfig()
       );
       setError(null);
       return res.data;
@@ -246,7 +237,7 @@ export const AdminProvider = ({ children }) => {
   const getLibraryStatistics = async () => {
     setLoading(true);
     try {
-      const res = await axios.get('http://localhost:5000/api/admin/statistics', getConfig());
+      const res = await axios.get(API_ENDPOINTS.admin.statistics, getAuthConfig());
       setStatistics(res.data);
       setError(null);
       return res.data;
